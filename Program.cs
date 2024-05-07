@@ -1,3 +1,5 @@
+using System.Text;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -5,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+
 using PostSomething_api.Database;
 using PostSomething_api.Models;
 using PostSomething_api.Repositories.Implementations;
 using PostSomething_api.Repositories.Interface;
 using PostSomething_api.Services.Implementation;
 using PostSomething_api.Services.Interface;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 #pragma warning disable CS8604 // Possible null reference argument.

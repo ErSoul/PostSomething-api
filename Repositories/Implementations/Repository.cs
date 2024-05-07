@@ -1,7 +1,9 @@
+using System.Linq.Expressions;
+
 using Microsoft.EntityFrameworkCore;
+
 using PostSomething_api.Database;
 using PostSomething_api.Repositories.Interface;
-using System.Linq.Expressions;
 
 namespace PostSomething_api.Repositories.Implementations
 {

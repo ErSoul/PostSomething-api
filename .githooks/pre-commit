@@ -45,9 +45,15 @@ EOF
 	exit 1
 fi
 
-[ -r ../PostSomething-api.Tests/PostSomething-api.Tests.csproj ] || (echo "ERROR: You must clone the parent repository to commit new changes." && exit 1 >&2)
+RED='\033[0;31m'
+ORANGE='\033[0;33m]'
+GREEN='\033[0;32m]'
+NC='\033[0m' # No Color
+
+[ -r ../PostSomething-api.Tests/PostSomething-api.Tests.csproj ] || { printf "${RED}ERROR${NC}: You must clone the parent repository to commit new changes.\n" && exit 1; }
 dotnet test ../PostSomething-api.Tests/PostSomething-api.Tests.csproj || exit 1
 
+dotnet format ../PostSomething.sln --verify-no-changes || { printf "${RED}ERROR${NC}: Formatting requirements not met. Please run dotnet format.\n" && exit 1 ; }
 
 ###############################
 ## Check Code Coverage (BASH) #
@@ -65,7 +71,7 @@ awk -v TARGET_COVERAGE=$TARGET_COVERAGE -v LINE_COVERAGE=$LINE_COVERAGE 'BEGIN {
 awk -v TARGET_COVERAGE=$TARGET_COVERAGE -v BRANCH_COVERAGE=$BRANCH_COVERAGE 'BEGIN {exit !(BRANCH_COVERAGE >= TARGET_COVERAGE)}' && echo "INFO: Branch Coverage met" || echo "WARN: Branch coverage not met"
 awk -v TARGET_COVERAGE=$TARGET_COVERAGE -v METHOD_COVERAGE=$METHOD_COVERAGE 'BEGIN {exit !(METHOD_COVERAGE >= TARGET_COVERAGE)}' && echo "INFO: Method Coverage met" || echo "WARN: Method coverage not met"
 
-awk -v TARGET_COVERAGE=$TARGET_COVERAGE -v LINE_COVERAGE=$LINE_COVERAGE -v BRANCH_COVERAGE=$BRANCH_COVERAGE -v METHOD_COVERAGE=$METHOD_COVERAGE 'BEGIN {exit !(LINE_COVERAGE >= TARGET_COVERAGE && BRANCH_COVERAGE >= TARGET_COVERAGE && METHOD_COVERAGE >= TARGET_COVERAGE)}' || (echo "ERROR: Code coverage not met." && exit 1)
+awk -v TARGET_COVERAGE=$TARGET_COVERAGE -v LINE_COVERAGE=$LINE_COVERAGE -v BRANCH_COVERAGE=$BRANCH_COVERAGE -v METHOD_COVERAGE=$METHOD_COVERAGE 'BEGIN {exit !(LINE_COVERAGE >= TARGET_COVERAGE && BRANCH_COVERAGE >= TARGET_COVERAGE && METHOD_COVERAGE >= TARGET_COVERAGE)}' || { echo "ERROR: Code coverage not met." && exit 1 ; }
 
 ###############################
 ## Check Code Coverage (BASH) #

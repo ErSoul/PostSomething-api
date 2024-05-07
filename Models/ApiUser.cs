@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Microsoft.AspNetCore.Identity;
 
 namespace PostSomething_api.Models
 {
