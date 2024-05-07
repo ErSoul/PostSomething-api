@@ -1,7 +1,7 @@
 ﻿using PostSomething_api.Services.Interface;
-using System.Net.Mail;
-using System.Net;
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using System.Net.Mail;
 
 namespace PostSomething_api.Services.Implementation
 {

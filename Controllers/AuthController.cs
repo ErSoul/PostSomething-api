@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 
 namespace PostSomething_api.Controllers;
 
+[Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
 {
@@ -29,7 +30,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Register(RegisterUserBody user)
     {
         if (user.Password != user.ConfirmationPassword)
-            return new BadRequestObjectResult(new [] { new { code = "PasswordsMismatch", description = "The password must match the one above" } });
+            return new BadRequestObjectResult(new[] { new { code = "PasswordsMismatch", description = "The password must match the one above" } });
 
         var newUser = new ApiUser { Email = user.Email, UserName = user.UserName };
         var result = await _userManager.CreateAsync(newUser, user.Password);
@@ -77,7 +78,7 @@ public class AuthController : ControllerBase
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
-        if(user is not null)
+        if (user is not null)
         {
             var checkPassword = await _userManager.CheckPasswordAsync(user, request.Password);
             if (checkPassword && user.EmailConfirmed)
@@ -96,14 +97,11 @@ public class AuthController : ControllerBase
 
     [Route("profile")]
     [HttpGet]
-    //[Authorize(AuthenticationSchemes = "Bearer")]
     [Authorize]
     public async Task<IActionResult> Profile()
     {
-        var userEmail = User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
-        if (userEmail == null) return NotFound();
-
-        return Ok(await _userManager.FindByEmailAsync(userEmail));
+        var userEmail = User.FindFirstValue(JwtRegisteredClaimNames.Email);
+        return Ok(await _userManager.FindByEmailAsync(userEmail!));
     }
 
     private string GenerateJSONWebToken(ApiUser user)

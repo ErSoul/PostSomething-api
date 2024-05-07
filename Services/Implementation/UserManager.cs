@@ -37,7 +37,7 @@ namespace PostSomething_api.Services.Implementation
         public Task<ApiUser?> FindByIdAsync(string id)
         {
             return _userManager.FindByIdAsync(id);
-        } 
+        }
 
     }
 }

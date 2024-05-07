@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Policy;
+using System.Net;
 
 namespace PostSomething_api.Middlewares
 {
@@ -13,10 +14,10 @@ namespace PostSomething_api.Middlewares
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 await context.Response.WriteAsJsonAsync(
                     new
-                    { 
+                    {
                         message = "",
                         status = "Unauthorized",
-                        httpCode = 401
+                        httpCode = HttpStatusCode.Unauthorized
                     });
                 return;
             }

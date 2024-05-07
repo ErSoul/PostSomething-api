@@ -19,7 +19,7 @@ namespace PostSomething_api.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -50,8 +50,7 @@ namespace PostSomething_api.Migrations
                         name: "FK_Comments_AspNetUsers_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_Comments_ParentId",
                         column: x => x.ParentId,

@@ -12,7 +12,7 @@ using PostSomething_api.Database;
 namespace PostSomething_api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240229192742_AddPostsAndCommentsTables")]
+    [Migration("20240303161241_AddPostsAndCommentsTables")]
     partial class AddPostsAndCommentsTables
     {
         /// <inheritdoc />
@@ -276,7 +276,6 @@ namespace PostSomething_api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -346,7 +345,7 @@ namespace PostSomething_api.Migrations
                     b.HasOne("PostSomething_api.Models.ApiUser", "Author")
                         .WithMany("Comments")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("PostSomething_api.Models.Comment", "Parent")

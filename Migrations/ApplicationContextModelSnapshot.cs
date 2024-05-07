@@ -273,7 +273,6 @@ namespace PostSomething_api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -343,7 +342,7 @@ namespace PostSomething_api.Migrations
                     b.HasOne("PostSomething_api.Models.ApiUser", "Author")
                         .WithMany("Comments")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("PostSomething_api.Models.Comment", "Parent")
