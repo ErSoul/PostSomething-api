@@ -1,9 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Microsoft.AspNetCore.Identity;
-
+﻿using Microsoft.AspNetCore.Identity;
 using PostSomething_api.Models;
 using PostSomething_api.Services.Interface;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PostSomething_api.Services.Implementation
 {

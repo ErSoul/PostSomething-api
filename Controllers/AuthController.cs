@@ -1,15 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using PostSomething_api.Models;
+using PostSomething_api.Requests;
+using PostSomething_api.Services.Interface;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-
-using PostSomething_api.Models;
-using PostSomething_api.Requests;
-using PostSomething_api.Services.Interface;
 
 namespace PostSomething_api.Controllers;
 
