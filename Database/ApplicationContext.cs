@@ -5,10 +5,8 @@ using PostSomething_api.Models;
 
 namespace PostSomething_api.Database
 {
-    public class ApplicationContext : IdentityDbContext<ApiUser>
+    public class ApplicationContext(DbContextOptions<ApplicationContext> options) : IdentityDbContext<ApiUser>(options)
     {
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
-
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
 

@@ -7,12 +7,8 @@ using PostSomething_api.Requests;
 
 namespace PostSomething_api.Repositories.Implementations
 {
-    public class CommentRepository : Repository<Comment>, ICommentRepository
+    public class CommentRepository(ApplicationContext context, ILogger<Repository<Comment>> _logger) : Repository<Comment>(context, _logger), ICommentRepository
     {
-        public CommentRepository(ApplicationContext context, ILogger<Repository<Comment>> _logger) : base(context, _logger)
-        {
-        }
-
         public async Task<Comment> CreateComment(CommentRequest commentRequest, ApiUser user, Post post, Comment? parent)
         {
             var comment = new Comment

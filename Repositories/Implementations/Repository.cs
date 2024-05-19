@@ -5,16 +5,10 @@ using System.Linq.Expressions;
 
 namespace PostSomething_api.Repositories.Implementations
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
+    public class Repository<TEntity>(ApplicationContext context, ILogger<Repository<TEntity>> _logger) : IRepository<TEntity> where TEntity : class, new()
     {
-        protected readonly ApplicationContext _context;
-        protected readonly ILogger<Repository<TEntity>> _logger;
-
-        public Repository(ApplicationContext context, ILogger<Repository<TEntity>> _logger)
-        {
-            _context = context;
-            this._logger = _logger;
-        }
+        protected readonly ApplicationContext _context = context;
+        protected readonly ILogger<Repository<TEntity>> _logger = _logger;
 
         public IQueryable<TEntity> AsQueryable()
         {
@@ -40,7 +34,7 @@ namespace PostSomething_api.Repositories.Implementations
             return _context.Set<TEntity>().Any(predicate);
         }
 
-        public IQueryable<TEntity> GetList()
+        public virtual IQueryable<TEntity> GetList()
         {
             return _context.Set<TEntity>().AsNoTracking();
         }

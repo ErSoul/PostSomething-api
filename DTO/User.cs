@@ -2,18 +2,11 @@
 
 namespace PostSomething_api.DTO
 {
-    public class User
+    public class User(ApiUser userEntity)
     {
-        public Guid Id { get; set; }
-        public string? UserName { get; set; }
-        public string Email { get; set; }
-        public string? Address { get; set; }
-        public User(ApiUser userEntity)
-        {
-            Id = new Guid(userEntity.Id);
-            UserName = userEntity.UserName;
-            Email = userEntity.Email!;
-            Address = userEntity.Address;
-        }
+        public Guid Id { get; set; } = new Guid(userEntity.Id);
+        public string? UserName { get; set; } = userEntity.UserName;
+        public string Email { get; set; } = userEntity.Email!;
+        public string? Address { get; set; } = userEntity.Address;
     }
 }

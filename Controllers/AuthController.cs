@@ -13,17 +13,11 @@ namespace PostSomething_api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController : ControllerBase
+public class AuthController(IUserManager<ApiUser> users, IEmailSender emailSender, IConfiguration config) : ControllerBase
 {
-    private readonly IUserManager<ApiUser> _userManager;
-    private readonly IEmailSender _emailSender;
-    private readonly IConfiguration _config;
-    public AuthController(IUserManager<ApiUser> users, IEmailSender emailSender, IConfiguration config)
-    {
-        _userManager = users;
-        _emailSender = emailSender;
-        _config = config;
-    }
+    private readonly IUserManager<ApiUser> _userManager = users;
+    private readonly IEmailSender _emailSender = emailSender;
+    private readonly IConfiguration _config = config;
 
     [Route("register")]
     [HttpPost]

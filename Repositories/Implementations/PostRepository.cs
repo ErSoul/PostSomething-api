@@ -7,10 +7,8 @@ using System.Linq.Expressions;
 
 namespace PostSomething_api.Repositories.Implementations
 {
-    public class PostRepository : Repository<Post>, IPostRepository
+    public class PostRepository(ApplicationContext context, ILogger<Repository<Post>> _logger) : Repository<Post>(context, _logger), IPostRepository
     {
-        public PostRepository(ApplicationContext context, ILogger<Repository<Post>> _logger) : base(context, _logger) { }
-
         public async Task<Post> CreatePost(PostRequest post)
         {
             var dbPost = new Post()
@@ -27,6 +25,11 @@ namespace PostSomething_api.Repositories.Implementations
         public override Task<Post?> Find(Expression<Func<Post, bool>> predicate)
         {
             return _context.Posts.Include(p => p.Author).Where(predicate).FirstOrDefaultAsync();
+        }
+
+        public override IQueryable<Post> GetList()
+        {
+            return _context.Posts.Include(post => post.Author).AsQueryable();
         }
     }
 }

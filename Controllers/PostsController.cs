@@ -11,20 +11,15 @@ namespace PostSomething_api.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PostsController : ControllerBase
+    public class PostsController(IPostRepository postRepository) : ControllerBase
     {
-        private readonly IPostRepository _postRepository;
-        public PostsController(IPostRepository postRepository)
-        {
-            _postRepository = postRepository;
-        }
 
         // GET: api/<PostController>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Index()
         {
-            return Ok(_postRepository.GetList().Select(post => new DTO.Post(post)));
+            return Ok(postRepository.GetList().Select(post => new DTO.Post(post)));
         }
 
         // GET api/<PostController>/5
@@ -32,7 +27,7 @@ namespace PostSomething_api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Get(int id)
         {
-            var post = await _postRepository.Find(p => p.Id == id);
+            var post = await postRepository.Find(p => p.Id == id);
 
             if (post is null)
                 return new NotFoundObjectResult(id);
@@ -45,7 +40,7 @@ namespace PostSomething_api.Controllers
         public async Task<IActionResult> Post([FromBody] PostRequest post)
         {
             post.Author = User.FindFirstValue(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sid);
-            return new JsonResult(new DTO.Post(await _postRepository.CreatePost(post)));
+            return new JsonResult(new DTO.Post(await postRepository.CreatePost(post)));
         }
 
         // PUT api/<PostController>/5
@@ -59,12 +54,12 @@ namespace PostSomething_api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var post = await _postRepository.Find(p => p.Id == id);
+            var post = await postRepository.Find(p => p.Id == id);
 
             if (post is null)
                 return new NotFoundResult();
 
-            await _postRepository.Delete(post);
+            await postRepository.Delete(post);
             return NoContent();
         }
     }

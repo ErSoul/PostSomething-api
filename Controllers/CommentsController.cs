@@ -10,19 +10,14 @@ namespace PostSomething_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CommentsController : ControllerBase
+    public class CommentsController(ICommentsService commentsService) : ControllerBase
     {
-        private readonly ICommentsService _commentsService;
-        public CommentsController(ICommentsService commentsService)
-        {
-            _commentsService = commentsService;
-        }
         // GET: api/<CommentController>
         [HttpGet]
         [Route("/api/posts/{postId}/comments")]
         public async Task<IEnumerable<DTO.Comment>> GetComments([FromRoute] int postId)
         {
-            var comments = await _commentsService.GetCommentsFromPost(postId);
+            var comments = await commentsService.GetCommentsFromPost(postId);
             return comments.Select(comment => new DTO.Comment(comment));
         }
 
@@ -30,7 +25,7 @@ namespace PostSomething_api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] int id)
         {
-            var comment = await _commentsService.GetComment(id);
+            var comment = await commentsService.GetComment(id);
 
             if (comment == null)
                 return NotFound();
@@ -45,7 +40,7 @@ namespace PostSomething_api.Controllers
         public async Task<IActionResult> CreateCommentFromPost([FromBody] CommentRequest commentRequest, [FromRoute] int postId)
         {
             var userId = User.FindFirstValue(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sid)!;
-            var comment = await _commentsService.CreateCommentFromPost(postId, commentRequest, userId);
+            var comment = await commentsService.CreateCommentFromPost(postId, commentRequest, userId);
             return new JsonResult(new DTO.Comment(comment));
         }
 
@@ -61,7 +56,7 @@ namespace PostSomething_api.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
-            await _commentsService.Delete(id);
+            await commentsService.Delete(id);
             return NoContent();
         }
     }
