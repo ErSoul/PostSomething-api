@@ -1,0 +1,8 @@
+/bin
+/obj
+.githooks/
+.vs/
+.git
+.gitignore
+Dockerfile
+init.sh
